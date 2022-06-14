@@ -14,7 +14,7 @@ import (
 	subtest "github.com/ChainSafe/ChainBridge/shared/substrate/testing"
 	"github.com/ChainSafe/chainbridge-utils/blockstore"
 	"github.com/ChainSafe/chainbridge-utils/msg"
-	"github.com/centrifuge/go-substrate-rpc-client/types"
+	"github.com/centrifuge/go-substrate-rpc-client/v3/types"
 )
 
 const ListenerTimeout = time.Second * 30
@@ -81,7 +81,7 @@ func Test_FungibleTransferEvent(t *testing.T) {
 	// Construct our expected message
 	var rId msg.ResourceId
 	subtest.QueryConst(t, context.client, "Example", "NativeTokenId", &rId)
-	amount := big.NewInt(1000000)
+	amount := big.NewInt(1000000000000000000)
 	recipient := BobKey.PublicKey
 	context.latestOutNonce = context.latestOutNonce + 1
 	expected := msg.NewFungibleTransfer(ThisChain, ForeignChain, context.latestOutNonce, amount, rId, recipient)

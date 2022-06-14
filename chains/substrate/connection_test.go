@@ -6,7 +6,7 @@ package substrate
 import (
 	"testing"
 
-	"github.com/centrifuge/go-substrate-rpc-client/types"
+	"github.com/centrifuge/go-substrate-rpc-client/v3/types"
 )
 
 func TestConnect_QueryStorage(t *testing.T) {
@@ -21,7 +21,7 @@ func TestConnect_QueryStorage(t *testing.T) {
 
 	// Query storage
 	var data types.AccountInfo
-	_, err = conn.queryStorage("System", "Account", conn.key.PublicKey, nil, &data)
+	_, err = conn.queryStorage("System", "Account", &data, conn.key.PublicKey)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -69,12 +69,13 @@ func TestConnect_SubmitTx(t *testing.T) {
 	}
 	defer conn.Close()
 
-	// Source: https://pkg.go.dev/github.com/centrifuge/go-substrate-rpc-client?tab=doc#example-package-MakeASimpleTransfer
-	bob, err := types.NewAddressFromHexAccountID("0x8eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a48")
+	// Source: https://pkg.go.dev/github.com/centrifuge/go-substrate-rpc-client/v3?tab=doc#example-package-MakeASimpleTransfer
+	//bob, err := types.NewAddressFromHexAccountID("0x8eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a48")
+	bob, err := types.NewMultiAddressFromHexAccountID("0x8eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a48")
 	if err != nil {
 		t.Fatal(err)
 	}
-	err = conn.SubmitTx("Balances.transfer", bob.AsAccountID, types.NewUCompactFromUInt(10))
+	err = conn.SubmitTx("Balances.transfer", bob, types.NewUCompactFromUInt(10))
 	if err != nil {
 		t.Fatal(err)
 	}
